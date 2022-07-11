@@ -2,10 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
+const categories = require('./routes/category');
+const subcategories = require('./routes/subcategories');
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/categories', categories);
+app.use('/api/subcategories', subcategories);
 
 mongoose
   .connect('mongodb://localhost/final-project', {
