@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const categories = require('./routes/category');
 const subcategories = require('./routes/subcategories');
+const products = require('./routes/products');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/categories', categories);
 app.use('/api/subcategories', subcategories);
+app.use('/api/products', products);
 
 mongoose
   .connect('mongodb://localhost/final-project', {

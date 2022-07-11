@@ -13,15 +13,11 @@ const productSchema = mongoose.Schema(
     },
     subcategory: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'SubCategory',
+      ref: 'Subcategory',
       required: true,
     },
     title: {
       type: String,
-      required: true,
-    },
-    imageUrls: {
-      type: [String],
       required: true,
     },
     subtitle: {
@@ -35,21 +31,17 @@ const productSchema = mongoose.Schema(
     stock: {
       type: Number,
       required: true,
+      default: 0,
     },
     price: {
       type: Number,
       required: true,
       default: 0,
     },
-    currency: {
-      tpye: String,
-      enum: [USD, EUR, GBP],
-      default: 'USD',
-    },
-    size: String,
-    color: String,
+    sizes: [String],
+    colors: [String],
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 const Product = mongoose.model('Product', productSchema);

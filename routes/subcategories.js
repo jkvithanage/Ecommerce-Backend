@@ -22,10 +22,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const subcategory = new Subcategory({
-    name: req.body.name,
-    parentId: req.body.parentId,
-  });
+  const subcategory = new Subcategory(req.body);
 
   await subcategory.save();
   res.send(subcategory);
@@ -36,8 +33,7 @@ router.put('/:id', async (req, res) => {
   const subcategory = await Subcategory.findByIdAndUpdate(
     req.params.id,
     {
-      name: req.body.name,
-      parentId: req.body.parentId,
+      $set: req.body,
     },
     { new: true }
   );
