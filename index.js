@@ -5,15 +5,22 @@ const mongoose = require('mongoose');
 const categories = require('./routes/category');
 const subcategories = require('./routes/subcategories');
 const products = require('./routes/products');
+const users = require('./routes/users');
+const carts = require('./routes/carts');
+const authenticate = require('./routes/authenticate');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.use('/api/categories', categories);
 app.use('/api/subcategories', subcategories);
 app.use('/api/products', products);
+app.use('/api/users', users);
+app.use('/api/auth', authenticate);
+app.use('/api/carts', carts);
 
 mongoose
   .connect('mongodb://localhost/final-project', {
