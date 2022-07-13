@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
+const joiObjectId = require('joi-objectid')(Joi);
 
 const orderSchema = mongoose.Schema(
   {
@@ -28,30 +30,28 @@ const orderSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    address: [
-      {
-        street: {
-          type: String,
-          required: true,
-        },
-        city: {
-          type: String,
-          required: true,
-        },
-        state: {
-          type: String,
-          required: true,
-        },
-        country: {
-          type: String,
-          required: true,
-        },
-        postal: {
-          type: String,
-          required: true,
-        },
+    address: {
+      street: {
+        type: String,
+        required: true,
       },
-    ],
+      city: {
+        type: String,
+        required: true,
+      },
+      state: {
+        type: String,
+        required: true,
+      },
+      country: {
+        type: String,
+        required: true,
+      },
+      postal: {
+        type: String,
+        required: true,
+      },
+    },
     phone: {
       type: Number,
       required: true,
@@ -67,4 +67,17 @@ const orderSchema = mongoose.Schema(
 
 const Order = mongoose.model('Order', orderSchema);
 
+function validateOrders(order) {
+  const schema = Joi.object({
+    userId: joiObjectId().required(),
+    products: Joi.array().required(),
+    address: Joi.object().required(),
+    phone: Joi.number().required(),
+    status: Joi.string().required(),
+  });
+
+  return schema.validate(order);
+}
+
 module.exports.Order = Order;
+module.exports.validateOrders = validateOrders;

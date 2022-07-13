@@ -25,7 +25,7 @@ app.use('/api/auth', authenticate);
 app.use('/api/carts', carts);
 
 mongoose
-  .connect('mongodb://localhost/final-project', {
+  .connect(process.env.dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
