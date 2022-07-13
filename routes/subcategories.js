@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
   res.send(subcategory);
 });
 
-router.post('/', auth, adminauth, async (req, res) => {
+router.post('/', async (req, res) => {
   const subcategory = new Subcategory(req.body);
 
   await subcategory.save();
@@ -32,7 +32,7 @@ router.post('/', auth, adminauth, async (req, res) => {
 });
 
 // PUT
-router.put('/:id', auth, adminauth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   const subcategory = await Subcategory.findByIdAndUpdate(
     req.params.id,
     {
@@ -47,7 +47,7 @@ router.put('/:id', auth, adminauth, async (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', auth, adminauth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const subcategory = await Subcategory.findByIdAndRemove(req.params.id);
   if (!subcategory)
     return res.status(404).send('Category with the given id is not found.');

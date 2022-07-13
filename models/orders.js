@@ -71,9 +71,10 @@ function validateOrders(order) {
   const schema = Joi.object({
     userId: joiObjectId().required(),
     products: Joi.array().required(),
+    totalAmount: Joi.number().required(),
     address: Joi.object().required(),
     phone: Joi.number().required(),
-    status: Joi.string().required(),
+    status: Joi.string(),
   });
 
   return schema.validate(order);

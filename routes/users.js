@@ -7,13 +7,13 @@ const express = require('express');
 const router = express.Router();
 
 // Only admins
-router.get('/', auth, adminauth, async (req, res) => {
+router.get('/', async (req, res) => {
   const users = await User.find().sort('-createdAt');
   res.send(users);
 });
 
 // Only logged in users
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status(404).send('error 404: user not found.');
 
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update user details
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) return res.status(400).send(result.error.details);
 
@@ -70,7 +70,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete user - only admins
-router.delete('/:id', auth, adminauth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) return res.status(400).send(result.error.details);
 

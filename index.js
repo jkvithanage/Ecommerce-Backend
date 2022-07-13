@@ -9,6 +9,7 @@ const products = require('./routes/products');
 const users = require('./routes/users');
 const carts = require('./routes/carts');
 const authenticate = require('./routes/authenticate');
+const orders = require('./routes/orders');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/auth', authenticate);
 app.use('/api/carts', carts);
+app.use('/api/orders', orders);
 
 mongoose
   .connect(process.env.dbUrl, {
