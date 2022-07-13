@@ -1,4 +1,7 @@
 const { Subcategory } = require('../models/subcategories');
+const auth = require('../middleware/auth');
+const adminauth = require('../middleware/adminauth');
+
 const express = require('express');
 const router = express.Router();
 
@@ -21,7 +24,7 @@ router.get('/:id', async (req, res) => {
   res.send(subcategory);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, adminauth, async (req, res) => {
   const subcategory = new Subcategory(req.body);
 
   await subcategory.save();
@@ -29,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, adminauth, async (req, res) => {
   const subcategory = await Subcategory.findByIdAndUpdate(
     req.params.id,
     {
@@ -44,7 +47,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, adminauth, async (req, res) => {
   const subcategory = await Subcategory.findByIdAndRemove(req.params.id);
   if (!subcategory)
     return res.status(404).send('Category with the given id is not found.');

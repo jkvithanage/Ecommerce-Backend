@@ -1,4 +1,5 @@
 require('dotenv').config();
+const logger = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(logger('dev'));
 
 // Routes
 app.use('/api/categories', categories);

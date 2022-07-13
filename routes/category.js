@@ -1,5 +1,7 @@
 const { Category } = require('../models/categories');
 const express = require('express');
+const auth = require('../middleware/auth');
+const adminauth = require('../middleware/adminauth');
 const router = express.Router();
 
 // GET all
@@ -18,7 +20,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST
-router.post('/', async (req, res) => {
+router.post('/', auth, adminauth, async (req, res) => {
   const category = new Category(req.body);
 
   await category.save();
@@ -26,7 +28,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, adminauth, async (req, res) => {
   const category = await Category.findByIdAndUpdate(
     req.params.id,
     {
@@ -41,7 +43,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, adminauth, async (req, res) => {
   const category = await Category.findByIdAndRemove(req.params.id);
   if (!category)
     return res.status(404).send('Category with the given id is not found.');

@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 
 // Only admins
-router.get('/', async (req, res) => {
+router.get('/', auth, adminauth, async (req, res) => {
   const users = await User.find().sort('-createdAt');
   res.send(users);
 });

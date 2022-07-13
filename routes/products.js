@@ -1,4 +1,6 @@
 const express = require('express');
+const adminauth = require('../middleware/adminauth');
+const auth = require('../middleware/auth');
 const { Product } = require('../models/products');
 const router = express.Router();
 
@@ -21,7 +23,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST
-router.post('/', async (req, res) => {
+router.post('/', auth, adminauth, async (req, res) => {
   const product = new Product(req.body);
 
   await product.save();
@@ -29,7 +31,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, adminauth, async (req, res) => {
   const product = await Product.findByIdAndUpdate(
     req.params.id,
     {
@@ -43,7 +45,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, adminauth, async (req, res) => {
   const product = await Product.findByIdAndRemove(req.params.id);
   if (!product)
     return res.status(404).send('Product with the given id is not found.');
