@@ -25,10 +25,7 @@ router.post('/', async (req, res) => {
 
 function validateAuth(req) {
   const schema = Joi.object({
-    email: Joi.string()
-      .email()
-      //   .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
-      .required(),
+    email: Joi.string().email().required(),
     password: Joi.string().min(6).max(255).required(),
   });
 

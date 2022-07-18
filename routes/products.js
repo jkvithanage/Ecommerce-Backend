@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const { Product } = require('../models/products');
 const router = express.Router();
 
-// GET all
+// Get all products
 router.get('/', async (req, res) => {
   const products = await Product.find()
     .sort('title')
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   res.send(products);
 });
 
-// GET by Id
+// Get product by id
 router.get('/:id', async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product)
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST
-router.post('/', async (req, res) => {
+router.post('/', auth, adminauth, async (req, res) => {
   const product = new Product(req.body);
 
   await product.save();
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, adminauth, async (req, res) => {
   const product = await Product.findByIdAndUpdate(
     req.params.id,
     {
@@ -45,7 +45,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, adminauth, async (req, res) => {
   const product = await Product.findByIdAndRemove(req.params.id);
   if (!product)
     return res.status(404).send('Product with the given id is not found.');

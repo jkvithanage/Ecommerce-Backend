@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
-const express = require('express');
 const { Order, validateOrders } = require('../models/orders');
 const { Product } = require('../models/products');
+const auth = require('../middleware/auth');
+const adminAuth = require('../middleware/adminauth');
+
+const express = require('express');
 const router = express.Router();
 
 // GET all orders - admin only
-router.get('/allorders', async (req, res) => {
+router.get('/allorders', auth, adminAuth, async (req, res) => {
   const orders = await Order.find().sort('createdAt');
   res.send(orders);
 });
 
-// GET order by Id
-router.get('/:id', async (req, res) => {
+// GET order by id - admin only
+router.get('/:id', auth, adminAuth, async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (!order) return res.status(404).send('No order with the given ID.');
 

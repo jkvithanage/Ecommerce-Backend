@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
-// get all users - only admins
+// Get all users - only admins
 router.get('/', async (req, res) => {
   const users = await User.find().sort('-createdAt');
   res.send(users);
 });
 
-// get user by id - only logged in user
+// Get user by id - only logged in user
 router.get('/:id', async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status(404).send('error 404: user not found.');
