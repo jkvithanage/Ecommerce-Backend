@@ -6,13 +6,13 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
-// Only admins
+// get all users - only admins
 router.get('/', async (req, res) => {
   const users = await User.find().sort('-createdAt');
   res.send(users);
 });
 
-// Only logged in users
+// get user by id - only logged in user
 router.get('/:id', async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) return res.status(404).send('error 404: user not found.');
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) return res.status(400).send(result.error.details);
 
-  //   Check for users with same email
+  // Check for users with same email
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send('User already registered.');
 
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
   });
 });
 
-// Update user details
+// Update user details - only logged in users
 router.put('/:id', async (req, res) => {
   const result = validateUser(req.body);
   if (result.error) return res.status(400).send(result.error.details);
